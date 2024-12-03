@@ -1,4 +1,4 @@
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class Scene {
@@ -14,15 +14,12 @@ class Scene {
     this.endTime,
   });
 
-  static Scene? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    return new Scene(
-      title: findElementOrNull(element, "sceneTitle")?.text,
-      description: findElementOrNull(element, "sceneDescription")?.text,
-      startTime: findElementOrNull(element, "sceneStartTime")?.text,
-      endTime: findElementOrNull(element, "sceneEndTime")?.text,
+  factory Scene.parse(XmlElement element) {
+    return Scene(
+      title: element.findElements('sceneTitle').firstOrNull?.text,
+      description: element.findElements('sceneDescription').firstOrNull?.text,
+      startTime: element.findElements('sceneStartTime').firstOrNull?.text,
+      endTime: element.findElements('sceneEndTime').firstOrNull?.text,
     );
   }
 }

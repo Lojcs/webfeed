@@ -11,8 +11,8 @@ class PodcastLocation {
       return null;
     }
     var name = element.text.trim();
-    var geo = element.getAttribute("geo")?.trim() ?? "";
-    var osm = element.getAttribute("osm")?.trim() ?? "";
+    var geo = element.getAttribute('geo')?.trim() ?? '';
+    var osm = element.getAttribute('osm')?.trim() ?? '';
 
     return PodcastLocation(name, geo: geo, osm: osm);
   }

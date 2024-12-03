@@ -1,4 +1,4 @@
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class AtomPerson {
@@ -6,12 +6,13 @@ class AtomPerson {
   final String? uri;
   final String? email;
 
-  AtomPerson(this.name, this.uri, this.email);
+  AtomPerson({this.name, this.uri, this.email});
 
   factory AtomPerson.parse(XmlElement element) {
-    var name = findElementOrNull(element, "name")?.text;
-    var uri = findElementOrNull(element, "uri")?.text;
-    var email = findElementOrNull(element, "email")?.text;
-    return AtomPerson(name, uri, email);
+    return AtomPerson(
+      name: element.findElements('name').firstOrNull?.text,
+      uri: element.findElements('uri').firstOrNull?.text,
+      email: element.findElements('email').firstOrNull?.text,
+    );
   }
 }

@@ -3,13 +3,14 @@ import 'package:webfeed/domain/atom_link.dart';
 import 'package:webfeed/domain/atom_person.dart';
 import 'package:webfeed/domain/atom_source.dart';
 import 'package:webfeed/domain/media/media.dart';
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/datetime.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class AtomItem {
   final String? id;
   final String? title;
-  final String? updated;
+  final DateTime? updated;
 
   final List<AtomPerson>? authors;
   final List<AtomLink>? links;
@@ -40,26 +41,31 @@ class AtomItem {
 
   factory AtomItem.parse(XmlElement element) {
     return AtomItem(
-      id: findElementOrNull(element, "id")?.text,
-      title: findElementOrNull(element, "title")?.text,
-      updated: findElementOrNull(element, "updated")?.text,
-      authors: element.findElements("author").map((element) {
-        return AtomPerson.parse(element);
-      }).toList(),
-      links: element.findElements("link").map((element) {
-        return AtomLink.parse(element);
-      }).toList(),
-      categories: element.findElements("category").map((element) {
-        return AtomCategory.parse(element);
-      }).toList(),
-      contributors: element.findElements("contributor").map((element) {
-        return AtomPerson.parse(element);
-      }).toList(),
-      source: AtomSource.parse(findElementOrNull(element, "source")),
-      published: findElementOrNull(element, "published")?.text,
-      content: findElementOrNull(element, "content")?.text,
-      summary: findElementOrNull(element, "summary")?.text,
-      rights: findElementOrNull(element, "rights")?.text,
+      id: element.findElements('id').firstOrNull?.text,
+      title: element.findElements('title').firstOrNull?.text,
+      updated: parseDateTime(element.findElements('updated').firstOrNull?.text),
+      authors: element
+          .findElements('author')
+          .map((e) => AtomPerson.parse(e))
+          .toList(),
+      links:
+          element.findElements('link').map((e) => AtomLink.parse(e)).toList(),
+      categories: element
+          .findElements('category')
+          .map((e) => AtomCategory.parse(e))
+          .toList(),
+      contributors: element
+          .findElements('contributor')
+          .map((e) => AtomPerson.parse(e))
+          .toList(),
+      source: element
+          .findElements('source')
+          .map((e) => AtomSource.parse(e))
+          .firstOrNull,
+      published: element.findElements('published').firstOrNull?.text,
+      content: element.findElements('content').firstOrNull?.text,
+      summary: element.findElements('summary').firstOrNull?.text,
+      rights: element.findElements('rights').firstOrNull?.text,
       media: Media.parse(element),
     );
   }

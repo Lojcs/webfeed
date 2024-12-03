@@ -14,10 +14,10 @@ class PodcastPerson {
       return null;
     }
     var name = element.text.trim();
-    var role = element.getAttribute("role")?.trim() ?? "";
-    var group = element.getAttribute("group")?.trim() ?? "";
-    var image = element.getAttribute("image")?.trim() ?? "";
-    var href = element.getAttribute("href")?.trim() ?? "";
+    var role = element.getAttribute('role')?.trim() ?? '';
+    var group = element.getAttribute('group')?.trim() ?? '';
+    var image = element.getAttribute('image')?.trim() ?? '';
+    var href = element.getAttribute('href')?.trim() ?? '';
 
     return PodcastPerson(name,
         role: role, group: group, image: image, href: href);

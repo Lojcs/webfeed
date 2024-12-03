@@ -5,7 +5,7 @@ class Embed {
   final String? url;
   final int? width;
   final int? height;
-  final List<Param?>? params;
+  final List<Param>? params;
 
   Embed({
     this.url,
@@ -14,17 +14,15 @@ class Embed {
     this.params,
   });
 
-  static Embed? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    return new Embed(
-      url: element.getAttribute("url"),
-      width: int.tryParse(element.getAttribute("width") ?? "0"),
-      height: int.tryParse(element.getAttribute("height") ?? "0"),
-      params: element.findElements("media:param").map((e) {
-        return Param.parse(e);
-      }).toList(),
+  factory Embed.parse(XmlElement element) {
+    return Embed(
+      url: element.getAttribute('url'),
+      width: int.tryParse(element.getAttribute('width') ?? '0'),
+      height: int.tryParse(element.getAttribute('height') ?? '0'),
+      params: element
+          .findElements('media:param')
+          .map((e) => Param.parse(e))
+          .toList(),
     );
   }
 }

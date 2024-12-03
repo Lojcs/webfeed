@@ -11,13 +11,10 @@ class License {
     this.value,
   });
 
-  static License? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    return new License(
-      type: element.getAttribute("type"),
-      href: element.getAttribute("href"),
+  factory License.parse(XmlElement element) {
+    return License(
+      type: element.getAttribute('type'),
+      href: element.getAttribute('href'),
       value: element.text,
     );
   }

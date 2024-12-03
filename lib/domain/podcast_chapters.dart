@@ -10,8 +10,8 @@ class PodcastChapters {
     if (element == null) {
       return null;
     }
-    var url = element.getAttribute("url")?.trim() ?? "";
-    var type = element.getAttribute("type")?.trim() ?? "";
+    var url = element.getAttribute('url')?.trim() ?? '';
+    var type = element.getAttribute('type')?.trim() ?? '';
 
     return PodcastChapters(url, type);
   }

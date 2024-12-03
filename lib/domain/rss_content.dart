@@ -1,6 +1,6 @@
 import 'package:xml/xml.dart';
 
-final _imagesRegExp = new RegExp(
+final _imagesRegExp = RegExp(
   "<img\\s.*?src=(?:'|\")([^'\">]+)(?:'|\")",
   multiLine: true,
   caseSensitive: false,
@@ -16,14 +16,11 @@ class RssContent {
 
   RssContent(this.value, this.images);
 
-  factory RssContent.parse(XmlElement? element) {
-    if (element == null) {
-      return RssContent('', ['']);
-    }
-    final content = element.text;
-    final images = <String?>[];
+  factory RssContent.parse(XmlElement element) {
+    final dynamic content = element.text;
+    final images = <String>[];
     _imagesRegExp.allMatches(content).forEach((match) {
-      images.add(match.group(1));
+      images.add(match.group(1)!);
     });
     return RssContent(content, images);
   }

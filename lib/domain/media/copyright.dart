@@ -9,12 +9,9 @@ class Copyright {
     this.value,
   });
 
-  static Copyright? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    return new Copyright(
-      url: element.getAttribute("url"),
+  factory Copyright.parse(XmlElement element) {
+    return Copyright(
+      url: element.getAttribute('url'),
       value: element.text,
     );
   }

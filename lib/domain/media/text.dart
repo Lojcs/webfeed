@@ -15,15 +15,12 @@ class Text {
     this.value,
   });
 
-  static Text? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    return new Text(
-      type: element.getAttribute("type"),
-      lang: element.getAttribute("lang"),
-      start: element.getAttribute("start"),
-      end: element.getAttribute("end"),
+  factory Text.parse(XmlElement element) {
+    return Text(
+      type: element.getAttribute('type'),
+      lang: element.getAttribute('lang'),
+      start: element.getAttribute('start'),
+      end: element.getAttribute('end'),
       value: element.text,
     );
   }

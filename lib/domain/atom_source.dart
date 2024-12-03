@@ -1,4 +1,4 @@
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class AtomSource {
@@ -6,16 +6,17 @@ class AtomSource {
   final String? title;
   final String? updated;
 
-  AtomSource(this.id, this.title, this.updated);
+  AtomSource({
+    this.id,
+    this.title,
+    this.updated,
+  });
 
-  static AtomSource? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    var id = findElementOrNull(element, "id")?.text;
-    var title = findElementOrNull(element, "title")?.text;
-    var updated = findElementOrNull(element, "updated")?.text;
-
-    return AtomSource(id, title, updated);
+  factory AtomSource.parse(XmlElement element) {
+    return AtomSource(
+      id: element.findElements('id').firstOrNull?.text,
+      title: element.findElements('title').firstOrNull?.text,
+      updated: element.findElements('updated').firstOrNull?.text,
+    );
   }
 }

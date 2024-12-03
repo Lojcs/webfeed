@@ -1,4 +1,4 @@
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class RssImage {
@@ -6,16 +6,13 @@ class RssImage {
   final String? url;
   final String? link;
 
-  RssImage(this.title, this.url, this.link);
+  RssImage({this.title, this.url, this.link});
 
-  static RssImage? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    var title = findElementOrNull(element, "title")?.text;
-    var url = findElementOrNull(element, "url")?.text;
-    var link = findElementOrNull(element, "link")?.text;
-
-    return RssImage(title, url, link);
+  factory RssImage.parse(XmlElement element) {
+    return RssImage(
+      title: element.findElements('title').firstOrNull?.text,
+      url: element.findElements('url').firstOrNull?.text,
+      link: element.findElements('link').firstOrNull?.text,
+    );
   }
 }

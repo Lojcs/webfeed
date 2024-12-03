@@ -7,13 +7,10 @@ class RssEnclosure {
 
   RssEnclosure(this.url, this.type, this.length);
 
-  static RssEnclosure? parse(XmlElement? element) {
-    if (element == null) {
-      return null;
-    }
-    var url = element.getAttribute("url");
-    var type = element.getAttribute("type");
-    var length = int.tryParse(element.getAttribute("length") ?? "0");
+  factory RssEnclosure.parse(XmlElement element) {
+    var url = element.getAttribute('url');
+    var type = element.getAttribute('type');
+    var length = int.tryParse(element.getAttribute('length') ?? '0');
     return RssEnclosure(url, type, length);
   }
 }

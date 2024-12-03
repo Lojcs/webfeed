@@ -1,4 +1,5 @@
-import 'package:webfeed/util/helpers.dart';
+import 'package:webfeed/util/datetime.dart';
+import 'package:webfeed/util/iterable.dart';
 import 'package:xml/xml.dart';
 
 class DublinCore {
@@ -8,7 +9,9 @@ class DublinCore {
   final String? subject;
   final String? publisher;
   final String? contributor;
-  final String? date;
+  final DateTime? date;
+  final DateTime? created;
+  final DateTime? modified;
   final String? type;
   final String? format;
   final String? identifier;
@@ -26,6 +29,8 @@ class DublinCore {
     this.publisher,
     this.contributor,
     this.date,
+    this.created,
+    this.modified,
     this.type,
     this.format,
     this.identifier,
@@ -36,26 +41,27 @@ class DublinCore {
     this.rights,
   });
 
-  factory DublinCore.parse(XmlElement? element) {
-    if (element == null) {
-      return DublinCore();
-    }
+  factory DublinCore.parse(XmlElement element) {
     return DublinCore(
-      title: findElementOrNull(element, "dc:title")?.text,
-      description: findElementOrNull(element, "dc:description")?.text,
-      creator: findElementOrNull(element, "dc:creator")?.text,
-      subject: findElementOrNull(element, "dc:subject")?.text,
-      publisher: findElementOrNull(element, "dc:publisher")?.text,
-      contributor: findElementOrNull(element, "dc:contributor")?.text,
-      date: findElementOrNull(element, "dc:date")?.text,
-      type: findElementOrNull(element, "dc:type")?.text,
-      format: findElementOrNull(element, "dc:format")?.text,
-      identifier: findElementOrNull(element, "dc:identifier")?.text,
-      source: findElementOrNull(element, "dc:source")?.text,
-      language: findElementOrNull(element, "dc:language")?.text,
-      relation: findElementOrNull(element, "dc:relation")?.text,
-      coverage: findElementOrNull(element, "dc:coverage")?.text,
-      rights: findElementOrNull(element, "dc:rights")?.text,
+      title: element.findElements('dc:title').firstOrNull?.text,
+      description: element.findElements('dc:description').firstOrNull?.text,
+      creator: element.findElements('dc:creator').firstOrNull?.text,
+      subject: element.findElements('dc:subject').firstOrNull?.text,
+      publisher: element.findElements('dc:publisher').firstOrNull?.text,
+      contributor: element.findElements('dc:contributor').firstOrNull?.text,
+      date: parseDateTime(element.findElements('dc:date').firstOrNull?.text),
+      created:
+          parseDateTime(element.findElements('dc:created').firstOrNull?.text),
+      modified:
+          parseDateTime(element.findElements('dc:modified').firstOrNull?.text),
+      type: element.findElements('dc:type').firstOrNull?.text,
+      format: element.findElements('dc:format').firstOrNull?.text,
+      identifier: element.findElements('dc:identifier').firstOrNull?.text,
+      source: element.findElements('dc:source').firstOrNull?.text,
+      language: element.findElements('dc:language').firstOrNull?.text,
+      relation: element.findElements('dc:relation').firstOrNull?.text,
+      coverage: element.findElements('dc:coverage').firstOrNull?.text,
+      rights: element.findElements('dc:rights').firstOrNull?.text,
     );
   }
 }
